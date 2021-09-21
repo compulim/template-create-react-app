@@ -23,6 +23,9 @@ jobs:
           git commit --message "Showing README.scaffold.md"
           git push --set-upstream origin ${{ github.event.inputs.target-branch }}
 
+      - name: Show README.post.md
+        name: mv README.post.md README.md
+
       # create-react-app will complain if ".github" directory exists.
       # In case we want to add other workflows for deployment, we need to rename/merge.
       - name: Rename ".github"
@@ -46,8 +49,7 @@ jobs:
       - name: Show README.post.md
         run: |
           mv README.md README.cra.md
-          mv README.post.md README.md
-          rm README.old.md
+          mv README.old.md README.md
 
       - name: Commit and push
         run: |
