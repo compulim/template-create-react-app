@@ -9,6 +9,8 @@ on:
 
 jobs:
   build:
+    # Ignore the first trigger after this repo is cloned from the template.
+    if: ${{ github.run_number > 1 }}
     runs-on: ubuntu-latest
 
     steps:
