@@ -25,14 +25,25 @@ jobs:
         if: ${{ format('refs/heads/{0}', github.event.inputs.target-branch) != github.ref }}
         run: git checkout -b ${{ github.event.inputs.target-branch }}
 
-      # Run "npm install" to generate the package-lock.json
-      - name: Run `create-react-app`
+      # create-react-app will complain if ".github" directory exists.
+      # In case we want to add other workflows for deployment, we need to rename/merge.
+      - name: Rename ".github"
         run: |
-          npx create-react-app .
-          npm audit fix
+          rm .github/workflows/set-up-scaffold.yaml
+          mv .github .github-merge
 
-      - name: Remove scaffold action
-        run: rm .github/workflows/set-up-scaffold.yaml
+      - name: Run `create-react-app`
+        run: npx create-react-app .
+      
+      - name: Run `npm audit`
+        run: |
+          npm install --package-lock-only
+          npm audit fix
+      
+      - name: Merge ".github"
+        run: |
+          cp -r .github-merge/* .github
+          rm -r .github-merge/
 
       - name: Commit and push
         run: |
