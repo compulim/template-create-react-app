@@ -29,7 +29,7 @@ jobs:
       # In case we want to add other workflows for deployment, we need to rename/merge.
       - name: Rename ".github"
         run: |
-          rm .github/workflows/set-up-scaffold.yaml
+          rm .github/workflows/set-up-scaffold.yml
           mv .github/ /tmp/dot-github-merge
 
       - name: Run `create-react-app`
