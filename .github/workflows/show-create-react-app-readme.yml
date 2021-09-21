@@ -1,12 +1,11 @@
-name: Show README.md from `create-react-app`
-
 on:
   push:
     branches: [main]
 
 jobs:
   build:
-    if: ${{ github.run_number == 2 && github.repository != 'compulim/template-create-react-app' }}
+    # Ignore the first trigger after this repo is cloned from the template.
+    if: ${{ github.run_number > 1 && github.repository != 'compulim/template-create-react-app' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -17,9 +16,9 @@ jobs:
           git config user.email "${{ format('@{0}', github.actor) }}"
           git config user.name "${{ format('@{0}', github.actor) }}"
 
-      - run: rm .github/workflows/show-create-react-app-readme.yml
-      - run: mv README.cra.md README.md
-      
+      - run: rm ${{ github.workflow }}
+      - run: mv README.create-react-app.md README.md
+
       - name: Commit and push
         run: |
           git add --all

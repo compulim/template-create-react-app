@@ -1,5 +1,3 @@
-name: Set up scaffold
-
 on:
   push:
     branches: [main]
@@ -30,7 +28,7 @@ jobs:
       # In case we want to add other workflows for deployment, we need to rename/merge.
       - name: Rename ".github"
         run: |
-          rm .github/workflows/set-up-scaffold.yml
+          rm ${{ github.workflow }}
           mv .github/ /tmp/dot-github-merge
 
       - name: Run `create-react-app`
@@ -48,7 +46,7 @@ jobs:
 
       - name: Show README.post.md
         run: |
-          mv README.md README.cra.md
+          mv README.md README.create-react-app.md
           mv README.old.md README.md
 
       - name: Commit and push
