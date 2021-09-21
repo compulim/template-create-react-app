@@ -35,17 +35,17 @@ jobs:
 
       - name: Run `create-react-app`
         run: npx create-react-app .
-      
+
       - name: Run `npm audit`
         run: |
           npm install --package-lock-only
           npm audit fix
-      
+
       - name: Merge ".github"
         run: |
           cp -r /tmp/dot-github-merge/* .github
           rm -r /tmp/dot-github-merge/
-      
+
       - name: Show README.post.md
         run: |
           mv README.md README.cra.md
@@ -61,5 +61,5 @@ jobs:
         run: |
           git checkout --orphan gh-pages
           git rm -rf .
-          git commit --add --allow-empty --message "Set up empty branch"
+          git commit --all --allow-empty --message "Set up empty branch"
           git push --set-upstream origin gh-pages
