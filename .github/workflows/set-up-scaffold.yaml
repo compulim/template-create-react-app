@@ -1,0 +1,41 @@
+name: Set up scaffold
+
+on:
+  workflow_dispatch:
+    inputs:
+      target-branch:
+        description: Target new branch
+        default: main
+        required: true
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure user profile
+        run: |
+          git config user.email "${{ format('@{0}', github.actor) }}"
+          git config user.name "${{ format('@{0}', github.actor) }}"
+
+      - name: Create new branch "${{ github.event.inputs.target-branch }}"
+        # Only create the new branch if we are not replacing ourselves.
+        if: ${{ format('refs/heads/{0}', github.event.inputs.target-branch) != github.ref }}
+        run: git checkout -b ${{ github.event.inputs.target-branch }}
+
+      # Run "npm install" to generate the package-lock.json
+      - name: Run `create-react-app`
+        run: |
+          npx create-react-app .
+          npm audit fix
+
+      - name: Remove scaffold action
+        run: rm .github/workflows/set-up-scaffold.yaml
+
+      - name: Commit and push
+        run: |
+          git add --all
+          git commit --message "Initial scaffold"
+          git push --set-upstream origin ${{ github.event.inputs.target-branch }}
