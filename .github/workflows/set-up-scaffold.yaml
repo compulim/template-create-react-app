@@ -30,7 +30,7 @@ jobs:
       - name: Rename ".github"
         run: |
           rm .github/workflows/set-up-scaffold.yaml
-          mv .github dot-github-merge
+          mv .github/ /tmp/dot-github-merge
 
       - name: Run `create-react-app`
         run: npx create-react-app .
@@ -42,8 +42,8 @@ jobs:
       
       - name: Merge ".github"
         run: |
-          cp -r .github-merge/* .github
-          rm -r dot-github-merge/
+          cp -r /tmp/dot-github-merge/* .github
+          rm -r /tmp/dot-github-merge/
 
       - name: Commit and push
         run: |
