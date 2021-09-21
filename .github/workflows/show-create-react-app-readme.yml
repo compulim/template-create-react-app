@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    if: ${{ github.run_number == 2 }}
+    if: ${{ github.run_number == 2 && github.repository != 'compulim/template-create-react-app' }}
     runs-on: ubuntu-latest
 
     steps:
