@@ -1,6 +1,6 @@
 # `create-react-app` on GitHub Actions
 
-Set up a new repo and run `create-react-app` via GitHub Actions.
+Set up a new repo and run `create-react-app` via GitHub Actions. Also deploy to GitHub Pages on every commit to `main`.
 
 ## How to run
 
