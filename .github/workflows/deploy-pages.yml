@@ -4,9 +4,6 @@ on:
   push:
     branches: [main]
 
-  pull_request:
-    branches: [main]
-
 jobs:
   build:
     # Ignore the first trigger after this repo is cloned from the template.

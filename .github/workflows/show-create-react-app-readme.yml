@@ -1,0 +1,27 @@
+name: Show README.md from `create-react-app`
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    if: ${{ github.run_number == 2 }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure user profile
+        run: |
+          git config user.email "${{ format('@{0}', github.actor) }}"
+          git config user.name "${{ format('@{0}', github.actor) }}"
+
+      - run: rm .github/workflows/show-create-react-app-readme.yml
+      - run: mv README.cra.md README.md
+      
+      - name: Commit and push
+        run: |
+          git add --all
+          git commit --message "Showing README.md from `create-react-app`"
+          git push --set-upstream origin ${{ github.event.inputs.target-branch }}

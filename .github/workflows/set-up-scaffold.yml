@@ -1,15 +1,12 @@
 name: Set up scaffold
 
 on:
-  workflow_dispatch:
-    inputs:
-      target-branch:
-        description: Target new branch
-        default: main
-        required: true
+  push:
+    branches: [main]
 
 jobs:
   setup:
+    if: ${{ github.run_number == 1 }}
     runs-on: ubuntu-latest
 
     steps:
@@ -20,10 +17,11 @@ jobs:
           git config user.email "${{ format('@{0}', github.actor) }}"
           git config user.name "${{ format('@{0}', github.actor) }}"
 
-      - name: Create new branch "${{ github.event.inputs.target-branch }}"
-        # Only create the new branch if we are not replacing ourselves.
-        if: ${{ format('refs/heads/{0}', github.event.inputs.target-branch) != github.ref }}
-        run: git checkout -b ${{ github.event.inputs.target-branch }}
+      - run: |
+          mv README.scaffold.md README.md
+          git add --all
+          git commit --message "Showing README.scaffold.md"
+          git push --set-upstream origin ${{ github.event.inputs.target-branch }}
 
       # create-react-app will complain if ".github" directory exists.
       # In case we want to add other workflows for deployment, we need to rename/merge.
@@ -44,9 +42,22 @@ jobs:
         run: |
           cp -r /tmp/dot-github-merge/* .github
           rm -r /tmp/dot-github-merge/
+      
+      - name: Show README.post.md
+        run: |
+          mv README.md README.cra.md
+          mv README.post.md README.md
+          rm README.old.md
 
       - name: Commit and push
         run: |
           git add --all
-          git commit --message "Initial scaffold"
+          git commit --message "Initial `create-react-app` scaffold"
           git push --set-upstream origin ${{ github.event.inputs.target-branch }}
+
+      - name: Set up empty `gh-pages` branch
+        run: |
+          git checkout --orphan gh-pages
+          git rm -r .
+          git commit --add --allow-empty --message "Set up empty branch"
+          git push --set-upstream origin gh-pages
