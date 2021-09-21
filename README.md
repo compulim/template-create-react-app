@@ -1,7 +1,5 @@
-# `create-react-app` on GitHub Actions
+We are setting up `create-react-app` scaffold.
 
-Set up a new repo and run `create-react-app` via GitHub Actions. Also deploy to GitHub Pages on every commit to `main`.
+This page will be updated shortly.
 
-To get started, [use this template to create a new repo](https://github.com/compulim/template-create-react-app/generate).
-
-After you created a new repo, wait awhile and refresh this page for next steps.
+[![Set up scaffold](../../actions/workflows/set-up-scaffold.yml/badge.svg)](../../actions/workflows/set-up-scaffold.yml)
