@@ -1,4 +1,8 @@
-We are setting up `create-react-app` scaffold.
+# `create-react-app` on GitHub Actions
+
+## Setting up `create-react-app`
+
+Please wait while we are setting up `create-react-app` scaffold.
 
 This page will be updated shortly.
 
