@@ -35,6 +35,7 @@ jobs:
         run: npx create-react-app .
 
       - name: Run `npm audit`
+        continue-on-error: true
         run: |
           npm install --package-lock-only
           npm audit fix
